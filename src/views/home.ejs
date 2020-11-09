@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" />
+    <title>Todo</title>
+  </head>
+  <body>
+    <div class="container h-100">
+      <div class="row justify-content-center">
+        <div class="col-md-6 mt-4">
+          <ul class="list-group">
+            <%todos.map(todo=>{%>
+            <li class="list-group-item">
+              <%=todo.title%> <a href="/todo/delete/<%=todo.id%>" class="float-right text-danger"><i class="fas fa-trash-alt"></i></a>
+            </li>
+            <% })%>
+          </ul>
+          <form action="/todo" method="POST">
+            <div class="form-group">
+              <input type="text" placeholder="Enter todo!" class="form-control mt-2" name="todo" />
+              <input type="submit" value="Add" class="btn btn-primary btn-block my-2" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
