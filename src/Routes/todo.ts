@@ -24,8 +24,6 @@ router.get("/delete/:todoId", (req, res) => {
 
     const { todoId } = req.params;
 
-    console.log(req.params);
-
     if (todoId) {
         Todo.delete(parseInt(todoId), (err: any) => {
             res.redirect("/");
