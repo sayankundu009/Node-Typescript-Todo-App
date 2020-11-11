@@ -42,9 +42,7 @@ export default class Todo {
 
             let todoList = [];
 
-            todoList = todos;
-
-            todoList.push({ id: this.id, title: this.title });
+            todoList = [...todos, { id: this.id, title: this.title }];
 
             Todo.saveToFile(todoList, callback);
         })
@@ -57,9 +55,7 @@ export default class Todo {
 
             let todoList = [];
 
-            todoList = todos;
-
-            todoList = todoList.filter((todo: TodoType) => todo.id != id);
+            todoList = todos.filter((todo: TodoType) => todo.id != id);
 
             Todo.saveToFile(todoList, callback);
         })
