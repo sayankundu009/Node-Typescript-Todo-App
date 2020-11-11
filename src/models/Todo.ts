@@ -13,54 +13,55 @@ export default class Todo {
         this.title = title;
     }
 
-    static all(callback: (err: any, data: TodoType[]) => void): void {
+    public static all(callback: (err: any, data: TodoType[]) => void): void {
 
         fs.readFile(filePath, 'utf8', (err, todos) => {
             if (err) console.log(err)
 
-            const todosList = JSON.parse(todos)
+            const todoList = JSON.parse(todos)
 
-            callback(err, todosList)
+            callback(err, todoList)
         })
     }
 
-    save(callback: (err: any) => void): void {
-        fs.readFile(filePath, 'utf8', (err, todos) => {
+    private static saveToFile(todoList: TodoType[], callback: (err: any) => void): void {
+
+        fs.writeFile(filePath, JSON.stringify(todoList), (err) => {
 
             if (err) console.log(err)
 
-            let todosList = [];
+            callback(err);
+        })
 
-            todosList = JSON.parse(todos);
+    }
 
-            todosList.push({ id: this.id, title: this.title });
+    public save(callback: (err: any) => void): void {
+        Todo.all((err, todos) => {
 
-            fs.writeFile(filePath, JSON.stringify(todosList), (err) => {
+            if (err) console.log(err)
 
-                if (err) console.log(err)
+            let todoList = [];
 
-                callback(err);
-            })
+            todoList = todos;
+
+            todoList.push({ id: this.id, title: this.title });
+
+            Todo.saveToFile(todoList, callback);
         })
     }
 
-    static delete(id: number, callback: (err: any) => void): void {
-        fs.readFile(filePath, 'utf8', (err, todos) => {
+    public static delete(id: number, callback: (err: any) => void): void {
+        Todo.all((err, todos) => {
 
             if (err) console.log(err)
 
-            let todosList = [];
+            let todoList = [];
 
-            todosList = JSON.parse(todos);
+            todoList = todos;
 
-            todosList = todosList.filter((todo: TodoType) => todo.id != id);
+            todoList = todoList.filter((todo: TodoType) => todo.id != id);
 
-            fs.writeFile(filePath, JSON.stringify(todosList), (err) => {
-
-                if (err) console.log(err)
-
-                callback(err);
-            })
+            Todo.saveToFile(todoList, callback);
         })
     }
 }
